@@ -10,6 +10,8 @@ RSpec.describe "hotels", type: :request do
       .to_return(body: File.read("./spec/fixtures/paperflies.json"), status: 200)
       stub_request(:get, "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/acme")
       .to_return(body: File.read("./spec/fixtures/acme.json"), status: 200)
+
+    Actions::Hotels::Import.new.call
   end
 
   describe "GET /hotels" do

@@ -1,8 +1,8 @@
 module Serializers
   class Patagonia < Base
-    def process_hotel(hotel)
+    def call(hotel)
       {
-        'id' => hotel['id'],
+        'external_id' => hotel['id'],
         'destination_id' => hotel['destination'],
         'name' => hotel['name'],
         'location' => {

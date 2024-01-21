@@ -1,19 +1,5 @@
 module Serializers
   class Base
-    def initialize(data)
-      @data = data
-    end
-
-    def call
-      common_format = []
-
-      @data.map do |hotel|
-        common_format << process_hotel(hotel)
-      end
-
-      common_format
-    end
-
     private
 
     def clean_description(description)

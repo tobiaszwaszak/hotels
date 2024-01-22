@@ -143,5 +143,53 @@ describe MergeDuplicates do
         end
       end
     end
+
+    context "when there is hash to update" do
+      context "when first hash has empty key" do
+        let(:input) do
+          [
+            {
+              "Id" => "iJhz",
+              "DestinationId" => 5432,
+              "location" => {},
+            },
+            {
+              "Id" => "iJhz",
+              "DestinationId" => 5432,
+              "location" => {"lat"=>1.264751, "lng"=>103.824006, "address"=>"8 Sentosa Gateway, Beach Villas", "city"=>"Singapore", "country"=>"SG"},
+            }
+          ]
+        end
+
+        it "update hash" do
+          expect(merge_duplicates.first["location"]).to eq(
+            {"lat"=>1.264751, "lng"=>103.824006, "address"=>"8 Sentosa Gateway, Beach Villas", "city"=>"Singapore", "country"=>"SG"}
+          )
+        end
+      end
+
+      context "when first hash has values" do
+        let(:input) do
+          [
+            {
+              "Id" => "iJhz",
+              "DestinationId" => 5432,
+              "amenities"=>{"general"=>["Pool", "BusinessCenter"], "room"=>[]},
+            },
+            {
+              "Id" => "iJhz",
+              "DestinationId" => 5432,
+              "amenities"=>{"general"=>["WiFi", "DryCleaning", "Breakfast"], "room"=>["Fridge"]},
+            }
+          ]
+        end
+
+        it "update hash" do
+          expect(merge_duplicates.first["amenities"]).to eq(
+            {"general"=>["Pool", "BusinessCenter", "WiFi", "DryCleaning", "Breakfast"], "room"=>["Fridge"]}
+          )
+        end
+      end
+    end
   end
 end

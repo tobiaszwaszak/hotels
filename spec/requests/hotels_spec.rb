@@ -49,14 +49,14 @@ RSpec.describe "hotels", type: :request do
 
     context "when destination_id is provided" do
       it "returns a list of hotels" do
-        get "/hotels", params: {destination_id: 1122}
+        get "/hotels", params: {destination: 1122}
         expect(JSON.parse(response.body).size).to eq(1)
       end
     end
 
     context "when hotel_ids is provided" do
       it "returns a list of hotels" do
-        get "/hotels", params: {hotel_ids: "iJhz,f8c9"}
+        get "/hotels", params: {hotels: ["iJhz","f8c9"]}
         expect(JSON.parse(response.body).size).to eq(2)
       end
     end

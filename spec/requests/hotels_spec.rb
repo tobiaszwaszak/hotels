@@ -2,6 +2,14 @@ require "rails_helper"
 require "webmock/rspec"
 
 RSpec.describe "hotels", type: :request do
+  let(:suppliers) do
+    [
+      Suppliers::Patagonia.new,
+      Suppliers::PaperFlies.new,
+      Suppliers::Acme.new
+    ]
+  end
+
   before do
     WebMock.disable_net_connect!(allow_localhost: true)
     stub_request(:get, "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/patagonia")
@@ -11,7 +19,7 @@ RSpec.describe "hotels", type: :request do
       stub_request(:get, "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/acme")
       .to_return(body: File.read("./spec/fixtures/acme.json"), status: 200)
 
-    Actions::Hotels::Import.new.call
+    Actions::Hotels::Import.new(suppliers: suppliers).call
   end
 
   describe "GET /hotels" do
